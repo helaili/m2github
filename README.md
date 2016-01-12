@@ -2,29 +2,13 @@
 
 
 ## Usage
-Add the path to the JAR in the mvn command-line of the target project, so your usual command : 
+Add the path to the JAR, a GitHub token and the GitHub repowoner/reponame in the mvn command-line of the target project, so your usual command : 
 ```
 mvn test
 ```
 turns into : 
 ```
-mvn -Dmaven.ext.class.path=<PATH>/m2github/target/classes test
+mvn -Dmaven.ext.class.path=<PATH_TO_m2github_jar> -Dm2github.repo=OctoCheese/Calculator -Dm2github.token=xxxxxxxxxxxxxxxxxxxxx test
 ```
 
-Add the following dependencies to your pom.xml
-```
-	<dependencies>
-	...
-		<dependency>
-			<groupId>org.apache.httpcomponents</groupId>
-			<artifactId>httpcore</artifactId>
-			<version>4.4.4	</version>
-		</dependency>
-		<dependency>
-			<groupId>org.apache.httpcomponents</groupId>
-			<artifactId>httpclient</artifactId>
-			<version>4.5.1</version>
-		</dependency>
-	...
-	</dependencies>
-``
+
