@@ -5,6 +5,9 @@ import java.util.Hashtable;
 
 public class SpyConfig {
 	private Collection<Mapping> mappings;
+	private Collection<String> ignore;
+	
+	
 	private Hashtable<String, String> mappingHash;
 	
 	@Override
@@ -26,6 +29,10 @@ public class SpyConfig {
 	    public String toString() {
 	        return source + " : " + destination;
 	    }
+	}
+	
+	public boolean isIgnored(String key) {
+		return ignore.contains(key);
 	}
 	
 	public String getMapping(String key) {

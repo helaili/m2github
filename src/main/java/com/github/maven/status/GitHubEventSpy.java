@@ -170,11 +170,14 @@ public class GitHubEventSpy extends AbstractEventSpy {
 	public void close() throws Exception {
 		super.close();
 
+		/*
 		// Displaying the event classes
 		logger.info(" ** Event Classes received by m2github ** ");
 		for (String className : eventClassNames.keySet()) {
 			logger.info(" ** " + className + " : " + eventClassNames.get(className));
 		}
+		*/
+		
 		logger.info(" ** Execution events received by m2github ** ");
 		
 		// Displaying execution events (class = org.apache.maven.execution.ExecutionEvent)
@@ -314,8 +317,12 @@ public class GitHubEventSpy extends AbstractEventSpy {
 				.getGoal());
 		
 		if(spyConfig != null) {
-			String mapping = spyConfig.getMapping(mojoName);
-			return mapping == null ? mojoName : mapping;
+			if(spyConfig.isIgnored(mojoName)) {
+				return null;
+			} else {
+				String mapping = spyConfig.getMapping(mojoName);
+				return mapping == null ? mojoName : mapping;
+			}
 		} else {
 			return mojoName;
 		}
@@ -325,8 +332,12 @@ public class GitHubEventSpy extends AbstractEventSpy {
 		String projectName = executionEvent.getProject().getName();
 		
 		if(spyConfig != null) {
-			String mapping = spyConfig.getMapping(projectName);
-			return mapping == null ? projectName : mapping;
+			if(spyConfig.isIgnored(projectName)) {
+				return null;
+			} else {
+				String mapping = spyConfig.getMapping(projectName);
+				return mapping == null ? projectName : mapping;
+			}
 		} else {
 			return projectName;
 		}
@@ -336,8 +347,12 @@ public class GitHubEventSpy extends AbstractEventSpy {
 		String bsName = bs.getProject().getName();
 		
 		if(spyConfig != null) {
-			String mapping = spyConfig.getMapping(bsName);
-			return mapping == null ? bsName : mapping;
+			if(spyConfig.isIgnored(bsName)) {
+				return null;
+			} else {
+				String mapping = spyConfig.getMapping(bsName);
+				return mapping == null ? bsName : mapping;
+			}
 		} else {
 			return bsName;
 		}

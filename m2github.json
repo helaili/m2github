@@ -1,24 +1,27 @@
 {
   "mappings" : [
-  	{ 
-  	  "source" : "Calculator/org.apache.maven.plugins/maven-surefire-plugin/test", 
+  	{
+  	  "source" : "Calculator/org.apache.maven.plugins/maven-surefire-plugin/test",
   	  "destination" : "Calculator/Surefire"
   	 },
   	 {
-  	   "source" : "Calculator/org.apache.maven.plugins/maven-compiler-plugin/testCompile", 
+  	   "source" : "Calculator/org.apache.maven.plugins/maven-compiler-plugin/testCompile",
   	  "destination" : "Calculator/Compiler/TestCompile"
   	 },
   	 {
-  	   "source" : "Calculator/org.apache.maven.plugins/maven-compiler-plugin/compile", 
+  	   "source" : "Calculator/org.apache.maven.plugins/maven-compiler-plugin/compile",
   	  "destination" : "Calculator/Compiler/Compile"
   	 },
   	 {
-  	   "source" : "Calculator/org.apache.maven.plugins/maven-resources-plugin/resources", 
+  	   "source" : "Calculator/org.apache.maven.plugins/maven-resources-plugin/resources",
   	  "destination" : "Calculator/Resources"
   	 },
   	 {
-  	   "source" : "Calculator/org.apache.maven.plugins/maven-resources-plugin/testResources", 
+  	   "source" : "Calculator/org.apache.maven.plugins/maven-resources-plugin/testResources",
   	  "destination" : "Calculator/Resources/TestResources"
   	 }
+  ],
+  "ignore" : [
+  	"Calculator/org.apache.maven.plugins/maven-resources-plugin/testResources"
   ]
 }
