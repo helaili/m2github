@@ -4,7 +4,7 @@
 	<groupId>com.github</groupId>
 	<artifactId>m2github</artifactId>
 	<packaging>jar</packaging>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>0.0.2-SNAPSHOT</version>
 	<name>m2github</name>
 	<url>https://github.com/helaili/m2github</url>
 

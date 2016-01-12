@@ -108,24 +108,10 @@ public class GitHubEventSpy extends AbstractEventSpy {
 	        Gson gson = new GsonBuilder().create();
 	        
             spyConfig = gson.fromJson(reader, SpyConfig.class);
-            logger.info("********** " + spyConfig.toString());
-			
+            
 		} catch (Exception e1) {
 			logger.info(" ** m2github - No config file found");
 		}
-			
-			/*
-			List<Message> messages = new ArrayList<Message>();
-	        reader.beginArray();
-	        while (reader.hasNext()) {
-	            Message message = gson.fromJson(reader, Message.class);
-	            messages.add(message);
-	        }
-	        reader.endArray();
-	        reader.close();
-	        return messages;
-	        */
-		
 		
 		githubRepo = userProperties.getProperty("m2github.repo");
 		if (githubRepo == null) {
