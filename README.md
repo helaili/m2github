@@ -19,6 +19,8 @@ mvn -Dmaven.ext.class.path=<PATH_TO_m2github_jar> -Dm2github.endpoint=https://oc
 
 Default status name are very long. You can create mappings in order to rename them. Mapping are configured in a JSON file. m2github looks for a file named ```m2github.json``` [(see sample in this repo)](./m2github.json) in the root of your project, but you can also provide a different name/path for the file with the ```-Dm2github.configFile``` parameter.
 
+This file allows also to specifiy status to omit (look for the *ignore* section of the sample configuration file).
+
 ## Result
 
 ![Alt text](/../screenshots/status.png?raw=true "GitHub Status from Maven")
