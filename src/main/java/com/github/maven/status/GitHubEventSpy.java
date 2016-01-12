@@ -1,10 +1,13 @@
 package com.github.maven.status;
 
 import java.io.BufferedReader;
+import java.io.FileReader;
 import java.io.InputStreamReader;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Properties;
+import java.util.Set;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
@@ -23,6 +26,10 @@ import org.codehaus.plexus.component.annotations.Component;
 import org.codehaus.plexus.component.annotations.Requirement;
 import org.codehaus.plexus.logging.Logger;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.stream.JsonReader;
+
 /**
  * @author Alain Helaili - helaili@github.com
  *
@@ -36,7 +43,11 @@ public class GitHubEventSpy extends AbstractEventSpy {
 
 	private HttpClient httpClient;
 
-	private Map<String, Integer> classNames = new HashMap<String, Integer>();
+	private Map<String, Integer> eventClassNames = new HashMap<String, Integer>();
+	
+	private Set<String> executionEventReceived = new HashSet<String>();
+	
+	private SpyConfig spyConfig;
 
 	private boolean initError = false;
 
@@ -76,13 +87,46 @@ public class GitHubEventSpy extends AbstractEventSpy {
 		super.init(context);
 		this.context = context;
 
+		String configFile = "m2github.json";
+		
 		String githubEndpointPrefix = "https://api.github.com/";
 
 		String githubRepo;
 
 		String sha;
-
+		
+		
 		Properties userProperties = (Properties) context.getData().get("userProperties");
+		
+		if (userProperties.getProperty("m2github.configFile") != null) {
+			configFile = userProperties.getProperty("m2github.configFile");
+		}
+		try {
+			FileReader fileReader = new FileReader(configFile);
+			logger.info(" ** m2github - Using config file " + configFile);
+			JsonReader reader = new JsonReader(fileReader);
+	        Gson gson = new GsonBuilder().create();
+	        
+            spyConfig = gson.fromJson(reader, SpyConfig.class);
+            logger.info("********** " + spyConfig.toString());
+			
+		} catch (Exception e1) {
+			logger.info(" ** m2github - No config file found");
+		}
+			
+			/*
+			List<Message> messages = new ArrayList<Message>();
+	        reader.beginArray();
+	        while (reader.hasNext()) {
+	            Message message = gson.fromJson(reader, Message.class);
+	            messages.add(message);
+	        }
+	        reader.endArray();
+	        reader.close();
+	        return messages;
+	        */
+		
+		
 		githubRepo = userProperties.getProperty("m2github.repo");
 		if (githubRepo == null) {
 			logger.error("m2github - Missing property m2github.repo");
@@ -130,7 +174,6 @@ public class GitHubEventSpy extends AbstractEventSpy {
 				logger.info(" ** m2github - GitHub Event Spy succesfully initialized - Endpoint is " + githubEndpoint
 						+ " ** ");
 			} catch (Exception e) {
-				// TODO Auto-generated catch block
 				logger.error(e.getMessage());
 				e.printStackTrace();
 			}
@@ -141,11 +184,18 @@ public class GitHubEventSpy extends AbstractEventSpy {
 	public void close() throws Exception {
 		super.close();
 
-		// Displaying the events
-		logger.info(" ** Events received by m2github ** ");
-		for (String className : classNames.keySet()) {
-			logger.info(" ** " + className + " : " + classNames.get(className));
+		// Displaying the event classes
+		logger.info(" ** Event Classes received by m2github ** ");
+		for (String className : eventClassNames.keySet()) {
+			logger.info(" ** " + className + " : " + eventClassNames.get(className));
 		}
+		logger.info(" ** Execution events received by m2github ** ");
+		
+		// Displaying execution events (class = org.apache.maven.execution.ExecutionEvent)
+		for(String executionEvent : executionEventReceived) {
+			logger.info(" ** " + executionEvent );
+		}
+		
 	}
 
 	@Override
@@ -153,17 +203,17 @@ public class GitHubEventSpy extends AbstractEventSpy {
 		// Capturing the various event types we receive so we can report on
 		// those being ignored
 		if (event != null) {
-			Integer currentCount = classNames.get(event.getClass().getName());
+			Integer currentCount = eventClassNames.get(event.getClass().getName());
 			if (currentCount == null) {
 				currentCount = new Integer(1);
 			} else {
 				currentCount = new Integer(currentCount.intValue() + 1);
 			}
 
-			classNames.put(event.getClass().getName(), currentCount);
+			eventClassNames.put(event.getClass().getName(), currentCount);
 		}
 
-		if (event != null) {
+		if (event != null && !initError) {
 			if (event instanceof org.apache.maven.execution.DefaultMavenExecutionResult) {
 				processExecutionResult((DefaultMavenExecutionResult) event);
 			} else if (event instanceof org.apache.maven.execution.ExecutionEvent) {
@@ -175,44 +225,66 @@ public class GitHubEventSpy extends AbstractEventSpy {
 
 	protected void processExecutionResult(DefaultMavenExecutionResult executionResult) {
 		BuildSummary bs = executionResult.getBuildSummary(executionResult.getProject());
-
+		
+		String statusLabel = generateBuildSummaryName(bs); 
+		executionEventReceived.add(statusLabel);
+		
 		if (bs instanceof BuildSuccess) {
-			sendStatus(bs.getProject().getName(), GitHubStatus.Success);
+			sendStatus(statusLabel, GitHubStatus.Success);
 		} else if (bs instanceof BuildFailure) {
-			sendStatus(bs.getProject().getName(), GitHubStatus.Failure);
+			sendStatus(statusLabel, GitHubStatus.Failure);
 		} else {
-			logger.error("m2github - unknown status for " + bs.getProject().getName() + " - " + bs.getClass().getName());
+			logger.error("m2github - unknown status for " + statusLabel + " - " + bs.getClass().getName());
 		}
 	}
 
 	protected void processExecutionEvent(ExecutionEvent executionEvent) {
+		String statusLabel = null;
+		GitHubStatus statusType = null;
+		
 		switch (executionEvent.getType()) {
 		case MojoStarted:
-			sendStatus(generateMojoName(executionEvent), GitHubStatus.Pending);
+			statusLabel = generateMojoName(executionEvent);
+			statusType = GitHubStatus.Pending;
 			break;
 		case MojoSucceeded:
-			sendStatus(generateMojoName(executionEvent), GitHubStatus.Success);
+			statusLabel = generateMojoName(executionEvent);
+			statusType = GitHubStatus.Success;
 			break;
 		case MojoFailed:
-			sendStatus(generateMojoName(executionEvent), GitHubStatus.Failure);
+			statusLabel = generateMojoName(executionEvent);
+			statusType = GitHubStatus.Failure;
 			break;
 		case ProjectStarted:
-			sendStatus(generateProjectName(executionEvent), GitHubStatus.Pending);
+			statusLabel = generateProjectName(executionEvent);
+			statusType = GitHubStatus.Pending;
 			break;
 		case ProjectSucceeded:
-			sendStatus(generateProjectName(executionEvent), GitHubStatus.Success);
+			statusLabel = generateProjectName(executionEvent);
+			statusType = GitHubStatus.Success;
 			break;
 		case ProjectFailed:
-			sendStatus(generateProjectName(executionEvent), GitHubStatus.Failure);
+			statusLabel = generateProjectName(executionEvent);
+			statusType = GitHubStatus.Failure;
 			break;
 		default:
 			break;
 		}
+		if(statusLabel != null && statusType != null) {
+			executionEventReceived.add(statusLabel);
+			sendStatus(statusLabel, statusType);
+		}
 	}
 
+	/**
+	 * Do the actual sending of the status to GitHub
+	 * 
+	 * @param label
+	 *            The label of the status we want to send
+	 * @param status
+	 *            The status (success | failure | pending)
+	 */
 	protected void sendStatus(String label, GitHubStatus status) {
-		logger.info("  ** " + label + " : " + status + "  ** ");
-
 		HttpPost httpPostRequest = new HttpPost(githubEndpoint);
 
 		try {
@@ -232,29 +304,57 @@ public class GitHubEventSpy extends AbstractEventSpy {
 			httpPostRequest.setEntity(params);
 
 			HttpResponse response = httpClient.execute(httpPostRequest);
-			if(response.getStatusLine().getStatusCode() >= 300) {
+			if (response.getStatusLine().getStatusCode() >= 300) {
 				logger.error(response.getStatusLine().toString());
 			}
-			logger.info(response.getStatusLine().toString());
 		} catch (Exception e) {
 			logger.error(e.getMessage());
 			e.printStackTrace();
 		} finally {
 			httpPostRequest.releaseConnection();
 		}
-
-		// post.s
-
 	}
 
+	/**
+	 * Generates a label for a Mojo related event
+	 * 
+	 * @param executionEvent
+	 * @return the concatenation of the project, the mojo's group id, the mojo's
+	 *         artifact id and the goal
+	 */
 	private String generateMojoName(ExecutionEvent executionEvent) {
-		return String.format("%s/%s/%s/%s", executionEvent.getProject().getName(), executionEvent.getMojoExecution()
+		String mojoName =  String.format("%s/%s/%s/%s", executionEvent.getProject().getName(), executionEvent.getMojoExecution()
 				.getGroupId(), executionEvent.getMojoExecution().getArtifactId(), executionEvent.getMojoExecution()
 				.getGoal());
+		
+		if(spyConfig != null) {
+			String mapping = spyConfig.getMapping(mojoName);
+			return mapping == null ? mojoName : mapping;
+		} else {
+			return mojoName;
+		}
 	}
 
 	private String generateProjectName(ExecutionEvent executionEvent) {
-		return executionEvent.getProject().getName();
+		String projectName = executionEvent.getProject().getName();
+		
+		if(spyConfig != null) {
+			String mapping = spyConfig.getMapping(projectName);
+			return mapping == null ? projectName : mapping;
+		} else {
+			return projectName;
+		}
+	}
+	
+	private String generateBuildSummaryName(BuildSummary bs) {
+		String bsName = bs.getProject().getName();
+		
+		if(spyConfig != null) {
+			String mapping = spyConfig.getMapping(bsName);
+			return mapping == null ? bsName : mapping;
+		} else {
+			return bsName;
+		}
 	}
 
 }

@@ -14,6 +14,7 @@
 			<includes>
 				<include>org/apache/http/**/*.*</include>
 				<include>org/apache/commons/**/*.*</include>
+				<include>com/google/**/*.*</include>
 			</includes>
 		</fileSet>
 		<fileSet>
