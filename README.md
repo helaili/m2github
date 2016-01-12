@@ -11,3 +11,4 @@ turns into :
 mvn -Dmaven.ext.class.path=<PATH_TO_m2github_jar> -Dm2github.repo=OctoCheese/Calculator -Dm2github.token=xxxxxxxxxxxxxxxxxxxxx test
 ```
 
+![Alt text](/.../screenshots/status.png?raw=true "GitHub Status from Maven")
