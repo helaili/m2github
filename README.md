@@ -2,7 +2,7 @@
 Capture execution steps of your Maven build and report about their status within your Pull Request
 
 ## Usage
-Add the path to the [JAR](https://github.com/helaili/m2github/releases/download/0.0.1/m2github-0.0.1-SNAPSHOT-release.jar), a GitHub token and the GitHub repo_owoner/repo_name in the mvn command-line of the target project. 
+Add the path to the [JAR](https://github.com/helaili/m2github/releases/download/0.0.2/m2github-0.0.2-SNAPSHOT-release.jar), a GitHub token and the GitHub repo_owoner/repo_name in the mvn command-line of the target project. 
 
 Therefore, your usual command : 
 ```
@@ -17,7 +17,7 @@ If you repository is hosted on a GitHub Enterprise instance, add the extra ```-D
 mvn -Dmaven.ext.class.path=<PATH_TO_m2github_jar> -Dm2github.endpoint=https://octodemo.com/api/v3 -Dm2github.repo=OctoCheese/Calculator -Dm2github.token=xxxxxxxxxxxxxxxxxxxxx test
 ```
 
-Default status name are very long. You can create mappings in order to rename them. Mapping are configurer in a JSON file. m2github looks for a file named ```m2github.json``` in the root of your project, but you can also provide a different name/path for the file with the ```-Dm2github.configFile``` parameter.
+Default status name are very long. You can create mappings in order to rename them. Mapping are configured in a JSON file. m2github looks for a file named ```m2github.json``` [(see sample in this repo)](./m2github.json) in the root of your project, but you can also provide a different name/path for the file with the ```-Dm2github.configFile``` parameter.
 
 ## Result
 
