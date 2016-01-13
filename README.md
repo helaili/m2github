@@ -22,3 +22,9 @@ Default status name are very long. You can create mappings in order to rename th
 ## Result
 
 ![Alt text](/../screenshots/status.png?raw=true "GitHub Status from Maven")
+
+
+
+## Todo 
+- Need to implement a org.apache.maven.surefire.report.RunListener 
+          provided by org.apache.maven.surefire.report.ReporterFactory

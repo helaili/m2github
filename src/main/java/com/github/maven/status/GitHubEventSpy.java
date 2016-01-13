@@ -217,11 +217,11 @@ public class GitHubEventSpy extends AbstractEventSpy {
 		
 		String statusLabel = generateBuildSummaryName(bs); 
 		executionEventReceived.add(statusLabel);
-		
+
 		if (bs instanceof BuildSuccess) {
-			sendStatus(statusLabel, GitHubStatus.Success);
+			sendStatus(statusLabel, "Duration : " + bs.getTime() + "ms", GitHubStatus.Success);
 		} else if (bs instanceof BuildFailure) {
-			sendStatus(statusLabel, GitHubStatus.Failure);
+			sendStatus(statusLabel, "Duration : " + bs.getTime() + "ms", GitHubStatus.Failure);
 		} else {
 			logger.error("m2github - unknown status for " + statusLabel + " - " + bs.getClass().getName());
 		}
@@ -230,6 +230,7 @@ public class GitHubEventSpy extends AbstractEventSpy {
 	protected void processExecutionEvent(ExecutionEvent executionEvent) {
 		String statusLabel = null;
 		GitHubStatus statusType = null;
+		
 		
 		switch (executionEvent.getType()) {
 		case MojoStarted:
@@ -261,7 +262,18 @@ public class GitHubEventSpy extends AbstractEventSpy {
 		}
 		if(statusLabel != null && statusType != null) {
 			executionEventReceived.add(statusLabel);
-			sendStatus(statusLabel, statusType);
+			String message;
+			
+			if(statusType == GitHubStatus.Pending) {
+				message = "Just Started";
+			} else if(statusType == GitHubStatus.Failure) {
+				message = "Ouch, Failure";
+			} else if(statusType == GitHubStatus.Success) {
+				message = "Oh, Sweet Success!";
+			} else {
+				message = "You should never really get this message. Please call me if you do.";
+			}
+			sendStatus(statusLabel, message, statusType);
 		}
 	}
 
@@ -270,16 +282,20 @@ public class GitHubEventSpy extends AbstractEventSpy {
 	 * 
 	 * @param label
 	 *            The label of the status we want to send
+	 * @param message
+	 *            The message displayed on the status page
 	 * @param status
 	 *            The status (success | failure | pending)
 	 */
-	protected void sendStatus(String label, GitHubStatus status) {
+	protected void sendStatus(String label, String message, GitHubStatus status) {
 		HttpPost httpPostRequest = new HttpPost(githubEndpoint);
 
 		try {
 			String payload = String.format(
 					"{\"state\": \"%s\", \"target_url\": \"%s\", \"description\": \"%s\", \"context\": \"%s\"}",
-					status, "http://github.com", "This is a meaningful description", label);
+					status, "http://github.com", message, label);
+			
+			logger.debug(payload);
 
 			StringEntity params = new StringEntity(payload);
 
