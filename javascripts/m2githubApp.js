@@ -5,5 +5,6 @@ console.log('m2githubApp loaded');
 
 
 m2githubApp.config(function($interpolateProvider) {
+    console.log('Changing interpolation symbols');
     return $interpolateProvider.startSymbol('{(').endSymbol(')}');
   });
