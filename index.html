@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html ng-app>
+<html ng-app="m2githubApp">
   <head>
     <meta charset='utf-8'>
     <meta http-equiv="X-UA-Compatible" content="chrome=1">
@@ -30,14 +30,17 @@
       <div class="inner clearfix">
         <section id="main-content">
           <h2>
-<a id="m2github---maven-to-github" class="anchor" href="#m2github---maven-to-github" aria-hidden="true"><span class="octicon octicon-link"></span></a>m2github - Maven To GitHub</h2>
-<p>2 + 1 = // 2 + 1 //</p>
-<p>1 + 2 = {{ 1 + 2 }}</p>
-<p>Display API status messages </p>
+              <a id="m2github---maven-to-github" class="anchor" href="#m2github---maven-to-github" aria-hidden="true"><span class="octicon octicon-link"></span></a>
+              m2github - Maven To GitHub
+          </h2>
+              <p>2 + 1 = // 2 + 1 //</p>
+              <p>1 + 2 = {{ 1 + 2 }}</p>
+              <p>Display API status messages </p>
+              <a href="http://helaili.github.io/m2github/status?message=thisIsCool&context=wow&status=success">Test it</a>
 
-<div ng-controller="DemoController as demo">
-    //demo.label//
-</div>
+          <div ng-controller="DemoController">
+            <p ng-if="message">Message : //message//</p>
+          </div>
         </section>
 
         <aside id="sidebar">
