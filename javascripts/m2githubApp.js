@@ -13,7 +13,7 @@ angular.module('m2githubApp').config(['$stateProvider',
     $stateProvider
       .state('status', {
         abstract: true,
-        url: '/status',
+        url: '/',
         template: '<ui-view/>'
       })
       .state('status.show', {
