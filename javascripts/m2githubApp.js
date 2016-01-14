@@ -12,6 +12,7 @@ angular.module('m2githubApp').config(['$interpolateProvider',
 
 angular.module('m2githubApp').config(['$stateProvider',
   function ($stateProvider) {
+    console.log('sweeeet');
     $stateProvider
       .state('status', {
         template: '<h1>My Contacts</h1>'
