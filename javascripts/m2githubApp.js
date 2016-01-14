@@ -24,7 +24,7 @@ angular.module('m2githubApp').config(['$stateProvider',
 ]);
 
 
-angular.module('m2githubApp').controller('DemoController', ['$scope', , '$stateParams',
+angular.module('m2githubApp').controller('DemoController', ['$scope', '$stateParams',
   function ($scope, $stateParams) {
     $scope.label = "This binding is brought you by // interpolation symbols.";
 
