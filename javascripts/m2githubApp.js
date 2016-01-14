@@ -20,6 +20,17 @@ angular.module('m2githubApp').config(['$stateProvider',
 ]);
 
 
+
+
+angular.module('m2githubApp').run(['$rootScope', '$state', '$stateParams',
+    function ($rootScope,   $state,   $stateParams) {
+      $rootScope.$state = $state;
+      $rootScope.$stateParams = $stateParams;
+    }
+  ]
+);
+
+
 angular.module('m2githubApp').controller('DemoController', ['$scope', '$rootScope', '$stateParams',
   function ($scope, $rootScope, $stateParams) {
 
