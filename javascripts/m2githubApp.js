@@ -14,29 +14,18 @@ angular.module('m2githubApp').config(['$stateProvider',
   function ($stateProvider) {
     $stateProvider
       .state('status', {
-        abstract: true,
-        url: '/m2github',
-        template: '<ui-view/>'
-      })
-      .state('status.default', {
-        url: '/',
-        templateUrl: 'views/default.html'
-      })
-      .state('status.show', {
-        url: 'status.html?status&message&context',
-        templateUrl: 'views/status.html'
+        template: '<h1>My Contacts</h1>'
       });
   }
 ]);
 
 
-angular.module('m2githubApp').controller('DemoController', ['$scope', '$stateParams',
-  function ($scope, $stateParams) {
+angular.module('m2githubApp').controller('DemoController', ['$scope', '$rootScope', '$stateParams',
+  function ($scope, $rootScope, $stateParams) {
     console.log('yessssss?xx');
 
 
-        var $rootScope = angular.element(document.querySelectorAll("[ui-view]")[0]).injector().get('$rootScope');
-
+        
         console.log($rootScope);
 
     $rootScope.$on('$stateChangeStart',function(event, toState, toParams, fromState, fromParams){
