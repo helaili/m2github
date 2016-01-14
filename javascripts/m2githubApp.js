@@ -25,8 +25,7 @@ angular.module('m2githubApp').controller('DemoController', ['$scope', '$rootScop
     console.log('yessssss?xx');
 
 
-        
-        console.log($rootScope);
+
 
     $rootScope.$on('$stateChangeStart',function(event, toState, toParams, fromState, fromParams){
       console.log('$stateChangeStart to '+toState.to+'- fired when the transition begins. toState,toParams : \n',toState, toParams);
