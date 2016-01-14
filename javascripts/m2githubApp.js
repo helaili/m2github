@@ -13,11 +13,11 @@ angular.module('m2githubApp').config(['$stateProvider',
     $stateProvider
       .state('status', {
         abstract: true,
-        url: '/',
+        url: '/views/',
         template: '<ui-view/>'
       })
       .state('status.show', {
-        url: '?status&message&context',
+        url: 'status.html?status&message&context',
         templateUrl: 'views/status.html'
       });
   }
@@ -26,6 +26,7 @@ angular.module('m2githubApp').config(['$stateProvider',
 
 angular.module('m2githubApp').controller('DemoController', ['$scope', '$stateParams',
   function ($scope, $stateParams) {
+    console.log("yessssss")
     $scope.label = "This binding is brought you by // interpolation symbols.";
 
     $scope.showStatus = function() {
