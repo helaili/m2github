@@ -1,4 +1,4 @@
-var m2githubApp = angular.module('m2githubApp', []);
+var m2githubApp = angular.module('m2githubApp', ['ui.router']);
 
 angular.module('m2githubApp').config(['$interpolateProvider',
   function($interpolateProvider) {
