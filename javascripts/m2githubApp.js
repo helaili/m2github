@@ -1,3 +1,5 @@
+'use strict';
+
 var m2githubApp = angular.module('m2githubApp', ['ui.router']);
 
 angular.module('m2githubApp').config(['$interpolateProvider',
@@ -13,8 +15,12 @@ angular.module('m2githubApp').config(['$stateProvider',
     $stateProvider
       .state('status', {
         abstract: true,
-        url: '/views/',
+        url: '/',
         template: '<ui-view/>'
+      })
+      .state('status.default', {
+        url: '',
+        templateUrl: 'views/default.html'
       })
       .state('status.show', {
         url: 'status.html?status&message&context',
@@ -26,14 +32,14 @@ angular.module('m2githubApp').config(['$stateProvider',
 
 angular.module('m2githubApp').controller('DemoController', ['$scope', '$stateParams',
   function ($scope, $stateParams) {
-    console.log("yessssss")
-    $scope.label = "This binding is brought you by // interpolation symbols.";
+    console.log('yessssss');
+
 
     $scope.showStatus = function() {
       $scope.status = $stateParams.status;
       $scope.message = $stateParams.message;
       $scope.context = $stateParams.context;
-      }
+    }
 
   }
 ]);
