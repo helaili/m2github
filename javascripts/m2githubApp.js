@@ -19,7 +19,7 @@ angular.module('m2githubApp').config(['$stateProvider',
         template: '<ui-view/>'
       })
       .state('status.default', {
-        url: '',
+        url: '/',
         templateUrl: 'views/default.html'
       })
       .state('status.show', {
@@ -32,7 +32,7 @@ angular.module('m2githubApp').config(['$stateProvider',
 
 angular.module('m2githubApp').controller('DemoController', ['$scope', '$stateParams',
   function ($scope, $stateParams) {
-    console.log('yessssss???');
+    console.log('yessssss?');
 
 
     $scope.showStatus = function() {
