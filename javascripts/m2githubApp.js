@@ -8,9 +8,6 @@ angular.module('m2githubApp').config(['$interpolateProvider', '$stateProvider',
     $interpolateProvider.endSymbol(']}');
 
     $stateProvider
-      .state('status', {
-        template: '<h1>My Contacts</h1>'
-      })
       .state('status.slash', {
         url: '/',
         template: '<h1>My Contacts</h1>'
