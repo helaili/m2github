@@ -6,8 +6,25 @@ angular.module('m2githubApp').config(['$interpolateProvider', '$stateProvider',
   function($interpolateProvider, $stateProvider) {
     $interpolateProvider.startSymbol('{[');
     $interpolateProvider.endSymbol(']}');
+
     $stateProvider
       .state('status', {
+        template: '<h1>My Contacts</h1>'
+      })
+      .state('status.slash', {
+        url: '/',
+        template: '<h1>My Contacts</h1>'
+      })
+      .state('status.empty', {
+        url: '',
+        template: '<h1>My Contacts</h1>'
+      })
+      .state('status.m2github', {
+        url: 'm2github',
+        template: '<h1>My Contacts</h1>'
+      })
+      .state('status.slashm2github', {
+        url: '/m2github',
         template: '<h1>My Contacts</h1>'
       });
   }
