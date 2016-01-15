@@ -2,16 +2,10 @@
 
 var m2githubApp = angular.module('m2githubApp', ['ui.router']);
 
-angular.module('m2githubApp').config(['$interpolateProvider',
-  function($interpolateProvider) {
-    $interpolateProvider.startSymbol('//');
-    $interpolateProvider.endSymbol('//');
-  }
-]);
-
-
-angular.module('m2githubApp').config(['$stateProvider',
-  function ($stateProvider) {
+angular.module('m2githubApp').config(['$interpolateProvider', '$stateProvider',
+  function($interpolateProvider, $stateProvider) {
+    $interpolateProvider.startSymbol('{[');
+    $interpolateProvider.endSymbol(']}');
     $stateProvider
       .state('status', {
         template: '<h1>My Contacts</h1>'
