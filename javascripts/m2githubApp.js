@@ -17,7 +17,7 @@ angular.module('m2githubApp').config(['$interpolateProvider', '$stateProvider',
       })
       .state('status.empty', {
         url: '?message',
-        template: '<h1>My Contacts</h1>'
+        template: '<h1>Message : {[message]}</h1>'
       })
       .state('status.m2github', {
         url: 'm2github',
