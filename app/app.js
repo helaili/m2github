@@ -24,9 +24,9 @@ angular.module('uiRouterSample', [
 .config(
   [          '$stateProvider', '$urlRouterProvider', '$interpolateProvider'
     function ($stateProvider,   $urlRouterProvider, $interpolateProvider) {
-      $interpolateProvider.startSymbol('//');
-      $interpolateProvider.endSymbol('//');
-      
+      $interpolateProvider.startSymbol('{[');
+      $interpolateProvider.endSymbol(']}');
+
       /////////////////////////////
       // Redirects and Otherwise //
       /////////////////////////////
