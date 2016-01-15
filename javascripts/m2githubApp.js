@@ -18,7 +18,7 @@ angular.module('m2githubApp').config(['$interpolateProvider', '$stateProvider',
       })
       .state('status.emptyx', {
         url: '?message',
-        template: 'views/status.html'
+        templateUrl: 'views/status.html'
       })
       .state('status.m2github', {
         url: 'm2github',
