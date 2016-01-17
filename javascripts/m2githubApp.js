@@ -13,7 +13,7 @@ angular.module('m2githubApp').config(['$interpolateProvider', '$stateProvider',
         template: '<ui-view/>'
       })
       .state('status.slashm2github', {
-        url: 'test.html?message',
+        url: '/test.html?message',
         template: '<h1>My Contacts</h1>'
       })
       .state('status.slash', {
@@ -48,8 +48,8 @@ angular.module('m2githubApp').controller('DemoController', ['$scope', '$rootScop
 
 
     $scope.showStatus = function() {
-      console.log($stateParams);
-      
+      console.log('********', $stateParams);
+
       $scope.status = $stateParams.status;
       $scope.message = $stateParams.message;
       $scope.context = $stateParams.context;
