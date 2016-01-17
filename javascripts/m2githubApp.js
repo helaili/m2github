@@ -12,6 +12,10 @@ angular.module('m2githubApp').config(['$interpolateProvider', '$stateProvider',
         abstract: true,
         template: '<ui-view/>'
       })
+      .state('status.slashm2github', {
+        url: 'test.html?message',
+        template: '<h1>My Contacts</h1>'
+      })
       .state('status.slash', {
         url: '/?message',
         template: '<h1>My Contacts</h1>'
@@ -22,10 +26,6 @@ angular.module('m2githubApp').config(['$interpolateProvider', '$stateProvider',
       })
       .state('status.test', {
         url: '/test.html?message',
-        template: '<h1>My Contacts</h1>'
-      })
-      .state('status.slashm2github', {
-        url: 'test.html?message',
         template: '<h1>My Contacts</h1>'
       });
   }
