@@ -48,6 +48,8 @@ angular.module('m2githubApp').controller('DemoController', ['$scope', '$rootScop
 
 
     $scope.showStatus = function() {
+      console.log($stateParams);
+      
       $scope.status = $stateParams.status;
       $scope.message = $stateParams.message;
       $scope.context = $stateParams.context;
