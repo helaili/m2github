@@ -20,8 +20,8 @@ angular.module('m2githubApp').config(['$interpolateProvider', '$stateProvider',
         url: '?message',
         templateUrl: 'views/status.html'
       })
-      .state('status.m2github', {
-        url: 'm2github',
+      .state('status.test', {
+        url: '/test.html?message',
         template: '<h1>My Contacts</h1>'
       })
       .state('status.slashm2github', {
