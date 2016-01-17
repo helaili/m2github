@@ -13,7 +13,7 @@ angular.module('m2githubApp').config(['$interpolateProvider', '$stateProvider',
         template: '<ui-view/>'
       })
       .state('status.slashm2github', {
-        url: '?message&status',
+        url: 'test.html',
         template: '<h1>My Contacts</h1>'
       })
       .state('status.slash', {
