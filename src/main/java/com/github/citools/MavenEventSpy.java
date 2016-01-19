@@ -1,4 +1,4 @@
-package com.github.maven.status;
+package com.github.citools;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -35,7 +35,7 @@ import com.google.gson.stream.JsonReader;
  *
  */
 @Component(role = EventSpy.class, hint = "github-event-spy")
-public class GitHubEventSpy extends AbstractEventSpy {
+public class MavenEventSpy extends AbstractEventSpy {
 	@Requirement
 	private Logger logger;
 

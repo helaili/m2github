@@ -1,4 +1,4 @@
-package com.github.maven.status;
+package com.github.citools;
 
 import java.util.Collection;
 import java.util.Hashtable;
