@@ -25,8 +25,3 @@ This file allows also to specifiy status to omit (look for the *ignore* section 
 
 ![Alt text](/../screenshots/status.png?raw=true "GitHub Status from Maven")
 
-
-
-## Todo 
-- Need to implement a org.apache.maven.surefire.report.RunListener 
-          provided by org.apache.maven.surefire.report.ReporterFactory
