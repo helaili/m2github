@@ -2,7 +2,7 @@
 Capture execution steps of your Maven build and report about their status within your Pull Request
 
 ## Usage
-Add the path to the [JAR](https://github.com/helaili/m2github/releases/download/0.0.2/m2github-0.0.2-SNAPSHOT-release.jar), a GitHub token and the GitHub repo_owoner/repo_name in the mvn command-line of the target project. 
+Add the path to the [JAR](https://github.com/helaili/m2github/releases/download/0.0.3/m2github-0.0.3-release.jar), a GitHub token and the GitHub repo_owoner/repo_name in the mvn command-line of the target project. 
 
 Therefore, your usual command : 
 ```
