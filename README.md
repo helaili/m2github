@@ -1,6 +1,5 @@
 # m2github
 
-## Goal
 Capture execution steps of your Maven build and report about their status within your Pull Request
 
 ## Usage
